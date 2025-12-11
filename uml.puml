@@ -1,0 +1,93 @@
+@startuml
+
+' ======================
+'        DOMAIN
+' ======================
+
+class User {
+  - id : int
+  - name : String
+}
+
+class Admin {
+}
+
+User <|-- Admin
+
+abstract class MediaItem {
+  - id : int
+  - title : String
+  - isAvailable : boolean
+}
+
+class Book {
+}
+
+class CD {
+}
+
+MediaItem <|-- Book
+MediaItem <|-- CD
+
+' ======================
+' Fine Strategy Pattern
+' ======================
+
+interface FineStrategy {
+  + calculateFine(days : int) : double
+}
+
+class BookFineStrategy {
+}
+
+class CDFineStrategy {
+}
+
+FineStrategy <|.. BookFineStrategy
+FineStrategy <|.. CDFineStrategy
+
+' ======================
+' Observer Pattern
+' ======================
+
+interface Observer {
+  + update() : void
+}
+
+class EmailObserver {
+}
+
+Observer <|.. EmailObserver
+
+' ======================
+' Loans
+' ======================
+
+class Loan {
+  - loanDate : Date
+  - returnDate : Date
+}
+
+User "1" --> "0..*" Loan
+MediaItem "1" --> "0..*" Loan
+
+' ======================
+' SERVICE
+' ======================
+
+class LibraryService {
+}
+
+class LibrarySystem {
+}
+
+class RealEmailService {
+}
+
+LibrarySystem --> LibraryService
+LibrarySystem --> RealEmailService
+LibraryService --> MediaItem
+LibraryService --> User
+RealEmailService --> EmailObserver
+
+@enduml
